@@ -3,21 +3,20 @@ services:
     - docker
 
 before_install:
-    - docker build -t alper/react-test -f ./client/Dockerfile.dev ./client
+    - docker build -t alperarabaci/react-test -f ./client/Dockerfile.dev ./client
 
 script:
-    - docker run alper/react-test npm test -- --coverage
-    
+    - docker run -e CI=true alperarabaci/react-test npm test
 after_success:
-    - docker build -t alper/multi-client ./client
-    - docker build -t alper/multi-nginx ./nginx
-    - docker build -t alper/multi-server ./server
-    - docker build -t alper/multi-worker ./worker
+    - docker build -t alperarabaci/multi-client ./client
+    - docker build -t alperarabaci/multi-nginx ./nginx
+    - docker build -t alperarabaci/multi-server ./server
+    - docker build -t alperarabaci/multi-worker ./worker
 
     # Log in to the docker CLI
     - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
     # Take those images and push them to docker hub
-    - docker push alper/multi-client
-    - docker push alper/multi-nginx 
-    - docker push alper/multi-server
-    - docker push alper/multi-worker
+    - docker push alperarabaci/multi-client
+    - docker push alperarabaci/multi-nginx 
+    - docker push alperarabaci/multi-server
+    - docker push alperarabaci/multi-worker
