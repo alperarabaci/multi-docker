@@ -1,0 +1,23 @@
+sudo: required
+services:
+    - docker
+
+before_install:
+    - docker build -t alper/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+    - docker run alper/react-test npm test -- --coverage
+    
+after_success:
+    - docker build -t alper/multi-client ./client
+    - docker build -t alper/multi-nginx ./nginx
+    - docker build -t alper/multi-server ./server
+    - docker build -t alper/multi-worker ./worker
+
+    # Log in to the docker CLI
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+    # Take those images and push them to docker hub
+    - docker push alper/multi-client
+    - docker push alper/multi-nginx 
+    - docker push alper/multi-server
+    - docker push alper/multi-worker
