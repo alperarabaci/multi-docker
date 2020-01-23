@@ -24,6 +24,7 @@ after_success:
     - docker push alperarabaci/multi-worker
 
 deploy:
+    edge: true
     provider: elasticbeanstalk
     region: us-east
     app: multi-docker
@@ -32,6 +33,5 @@ deploy:
     bucket_path: docker-multi
     on:
         branch: master
-    access_key_id:$AWS_ACCESS_KEY     
-    secret_access_key:
-        secure:$AWS_SECRET_KEY     
+    access_key_id: $AWS_ACCESS_KEY     
+    secret_access_key: $AWS_SECRET_KEY
