@@ -1,0 +1,36 @@
+{
+    "AWSEBDockerrunVersion":2,
+    "containerDefinitions": [
+        {
+            "name": "client",
+            "image": "alperarabaci/multi-client",
+            "hostname":"client",
+            "essential": true
+        },
+        {
+            "name": "server",
+            "image": "alperarabaci/multi-server",
+            "hostname":"api",
+            "essential": false
+        },
+        {
+            "name": "worker",
+            "image": "alperarabaci/multi-worker",
+            "hostname":"worker",
+            "essential": false
+        },
+        {
+            "name": "nginx",
+            "image": "alperarabaci/multi-nginx",
+            "hostname":"nginx",
+            "essential": true,
+            "portMapping": [
+                {
+                "hostPort": 80,
+                "containerPort": 80
+                }
+            ],
+            "links": ["client", "server"]
+        }
+    ]
+}
